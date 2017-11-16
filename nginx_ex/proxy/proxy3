@@ -1,0 +1,16 @@
+location / {
+#host, port
+proxy_pass http://localhost:8080/;
+#ipaddr, port
+proxy_pass http://127.0.0.1:8080/;
+#unix
+proxy_pass http://unix:/tmp/nginx.sock;
+#https://
+proxy_pass https://192.168.0.1/;
+#+path
+proxy_pass http://localhost:8080/path/;
+#+path
+proxy_pass http://unix:/tmp/nginx.sock:/path/;
+#$server
+proxy_pass http://$server_name:8080/;
+}

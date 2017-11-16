@@ -1,0 +1,20 @@
+http {
+
+  log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                  '$status $body_bytes_sent "$http_referer" '
+		  '"$http_user_agent "$http-x_forwarded_for"';
+
+  server{
+  
+    location /foo{
+      proxy_set_header X-Real-IP          $remote_addr;
+      proxy_set_header X-Forwarded-for    $remote_addr;
+      proxy_set_header X-Forwarded-Host   $host;
+      proxy_ser_header X-Forwarded-Server $host;
+
+      proxy_pass http://192.168.0.1:8080/;
+    }
+
+  }
+  
+}
