@@ -4,12 +4,12 @@ ssl_certificate_key   server.key;
 server{
   listen          192.168.1.1:443 ssl;
   server_name     takagotch.com;
-  ssl_certificate takagotch.com<ssl_certificate>;
+  ssl_certificate takagotch.com<server.crt:certificate>;
 }
 
 #2
 server{
   listen          192.168.1.1:443 ssl;
   server_name     takagotch.com;
-  ssl_certificate takagotch.com<ssl_certificate>;
+  ssl_certificate takagotch.com<server.crt>;
 }

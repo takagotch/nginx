@@ -6,12 +6,12 @@ ssl_certificate_key server.key;
 server{
   listen           443 ssl;
   server_name      takagotch.com;
-  ssl_certificate  takagotch.com<ssl_certificate>;
+  ssl_certificate  takagotch.com<server.crt>;
 }
 
 #2
 server{
   listen           443 ssl;
   server_name      takagotch.com;
-  ssl_certificate  takagotch.com<ssl_certificate>;
+  ssl_certificate  takagotch.com<server.crt>;
 }
