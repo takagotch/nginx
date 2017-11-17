@@ -1,2 +1,0 @@
-
-getconf PAGE_SIZE
