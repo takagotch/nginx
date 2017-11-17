@@ -1,0 +1,3 @@
+bundle exec rake generate_secret_token
+RAILS_ENV=production bundle exec take db:migrate
+RAILS_ENV=production REDMINE_LANG=ja bundle exec rake redmine: load_defaule_data
