@@ -1,0 +1,12 @@
+ssl_certificate      common.crt;
+ssl_certificate_key  common.key;
+
+server{
+  listen             443 ssl;
+  server_name        server1.takagotch.com;
+}
+
+server{
+  listen             443 ssl;
+  server_name        server2.takagotch.com; 
+} 

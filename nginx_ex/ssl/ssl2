@@ -1,0 +1,14 @@
+ssl_certificate      /..path../SSL;
+ssl_certificate_key  /..path../id_rsa;
+
+ssl_session_cache        shared:SSL:10m;
+ssl_session_timeout      10m;
+
+ssl_session_tickets      on;
+ssl_session_tickets_key  /etc/nginx/session_ticket.key;
+# openssl rand 48 > /etc/nginx/session_ticket.key
+
+$openssl ciphers -v
+ssl_ciphers HIGH:!eNULL:!MD5;
+
+ssl_prefer_server_ciphers on;

@@ -1,0 +1,13 @@
+upstream mycluster{
+  ip_hash;
+  server     192.168.0.1:443;
+  server     192.168.0.2:443;
+}
+
+server{
+  listen        80;
+  server_name   takagotch.com;
+  location / {
+    proxy_pass  https://mycluster; #*https://*
+  }
+}
