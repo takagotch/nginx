@@ -1,0 +1,2 @@
+
+getconf PAGE_SIZE

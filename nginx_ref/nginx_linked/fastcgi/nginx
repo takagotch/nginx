@@ -1,0 +1,21 @@
+upstream backend{
+  server 127.0.0.1:9000;
+}
+server{
+  root /opt/wordpress;
+  index index.php index.html index.htm;
+  
+  include fastcgi_params;
+  fastcgi_index index.php;
+  fastcgi_params SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+  
+  location/{
+    try_files $uri @app;
+  }
+  location ~* \.php${
+    fastcgi_pass backend;
+  }
+  location @app{
+    fastcgi_pass backend;
+  }
+}
