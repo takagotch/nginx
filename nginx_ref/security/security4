@@ -1,0 +1,28 @@
+yum install -y httpd-tools
+
+httpasswd -c ~/.ssh/id_rsa tky
+#/etc//nginx/passwd
+htpasswd -c /etc/nginx/passwd foo
+htpasswd ~/.ssh/id_rsa tky2
+htpasswd -D ~/.ssh/id_rsa tky2
+
+auth_basic xxx;
+auth_basic_user_file ~/.ssh/id_rsa;
+
+
+location{
+  auth_basic           "Restricted";
+  auth_basic           off;
+  auth_basic_user_file /etc/nginx/passwd;
+}
+
+server{
+  auth_basic           "closed website";
+  auth_basic_user_file /etc/nginx/passwd;
+
+  location{
+    auth_basic         off;
+  }
+}
+
+
