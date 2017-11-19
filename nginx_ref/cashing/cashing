@@ -1,0 +1,78 @@
+$telnet www.yahoo.con.jp 80
+
+GET / HTTP/1.1
+Host: www.yahoo.co.jp
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 14 Jun 2017 03:54:34 GMT
+...
+Cache-Control: private, no-cache, no-store, must-revalidate
+
+Expires: -1
+Pragma: no-cache
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="Thu, 1 Aug 2017 04:21:34 GMT">
+  <title>Cache Test</title>
+</head>
+<body>
+  <h1>test</h1>
+  </body>
+</html>
+
+
+expires 24h;
+expires modified +24h;
+expires @15h30m;
+expires 0;
+expires -1;
+
+expires epoch;
+expires $expires;
+add_header Cache-Control private;
+
+
+map $sent_http_content_type $expires{
+  default                  off;
+  ~image/                  1d;
+  ~text/                   1h;
+  application/x-javascript 1h;
+}
+server{
+  //
+  expires $expires;
+}
+
+
+add_header Cache-Control private always;
+
+
+http{
+  ...
+  proxy_cache_path /data/nginx/cache keys_zone=cache_sample:10m;
+
+  server{
+    proxy_cache cache_sample;
+    location / {
+      proxy_pass http://localhost:8080;
+      ...
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+

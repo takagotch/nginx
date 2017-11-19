@@ -1,0 +1,56 @@
+/var/cache/nginx/cache
+
+proxy_cache_path /var/cache/nginx/cache levels=1:2 keys_zone=cache_sample: 60m max_size=1G inactive=7d;
+
+
+
+location ~* \.(html|css|jpg|gif|ico|js)${
+  proxy_cache cache_sample;
+  proxy_pass  http://mycluster;
+}
+
+http{
+  proxy_cache_path /var/cache/nginx/cach levels=1:2 keys_zone=cache_sample:60m max_size=1G inactive=7d;
+
+  upstream mycluster {
+    server 192.168.33.10;
+    server 192.168.99.10;
+  }
+
+  server {
+    location / {
+      proxy_pass http://mycluster;
+    }
+
+    location ~* \.(html|css|jpg|gif|ico|js)${
+      proxy_set_header X-Forwarded-For $remote_addr;
+
+      expires           30m;
+
+      proxy_cache       cache_sample;
+
+      proxy_cache_key   $host$uri$is_args$args;
+
+      proxy_cache_valid 200 301 302 30m;
+
+      proxy_pass        http://mycluster;
+    }
+  }
+}
+
+
+
+
+#proxy_set_header X-Forward-For $remote_addr;
+#proxy_set_header Connection close;
+#
+#proxy_set_header X-Forwarded $remote_addr;
+#expires           30m;
+#
+#proxy_cache_key $scheme$proxy_host$request_uri;
+#
+#proxy_cache_key $host$uri$is_args$args;
+#
+#proxy_cache_valid 200 301 302 30m;
+
+
