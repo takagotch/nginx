@@ -1,0 +1,19 @@
+#sastatus
+#
+#/etc/sysconfig/selinux
+#This file controls the state of SELinux on the system.
+#SELINUX= can take one of these three values:
+#  enforcing ~ SELinux seurity policy is enforced
+#  permissive ~ SELinux prints warnings instead of enforcing.
+#  disabled ~ No SELinux policy is loaded.
+SELINUX=enforcing
+#SELINUXTYPE= can take one of three two values;
+#  targetd ~ Targeted processes are protected.
+#  minimum ~ Modification of targeted policy. Only selected processes are proteced. 
+#  mis ~ Multi Level Security protection.
+SELINUXTYPE=targeted
+
+$ps -adfZ | grep nginx
+$ls -lZ /etc/nginx
+
+$yum -y install selinux-policy-targeted selinux-policy-devel

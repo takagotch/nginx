@@ -1,0 +1,23 @@
+server{
+  listen      8080;
+  server_name localhost;
+}
+
+server{
+  listen      2222;
+  server_name localhost;
+}
+
+/va/log/audit/audit.log
+semanage port -l | grep http
+/usr/sbin/aemanage port -a -t http_port_t -p tcp 2222
+
+
+#/usr/sbin/semanage fcontext 0a 0t httpd_sys_content_t "/var/htdocs(/.*)?"
+#/usr/sbin/restorecon -R /var/htdocs/
+
+#/usr/sbin/semanage fcontext -l | grep httpd_sys_content_t
+#/usr/sbin/semanage fcontext -l | grep htpd_config_t
+
+
+

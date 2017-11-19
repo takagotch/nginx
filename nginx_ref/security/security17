@@ -1,0 +1,53 @@
+/dev/sdb1 /nginx ext4 defaults,nosuid,noexec,nodev 1 2
+
+#/proc/sys/net/ipv4/tcp_SYN
+sysctl -w net.ipv4.tcp_syncookies=1
+#/etc/sysctl.conf
+net.ipv4.tcp_syscookies=1
+
+sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
+#/etc/sysctl.conf
+net.ipv5.icmp_echo_ignore_broadvasts=1
+
+sysctl -w net.ipb4.tcp_rgc1337=1
+/etc/sysctl.conf
+net.ipv4.tcp_rgc1337=1
+
+sysctl -1 net.ipv4.tcp_tw_recycle=1
+/etc/sysctl.conf
+net.ipv4.tcp_tw_recycle=1
+
+sysctl -w net.ipv4.tcp_fin_timeout=15
+/etc/sysctl.conf
+net.ipv4.tcp_fin_timeout=15 #Dos
+
+sysctl -w net.ipv4.icmp_echo_ignore_all=1
+/etc/sysctl.conf
+net.ipv4.icmp_echo_ignore_all=1 #PoD
+
+
+sysctl -w net.ipv4.conf.*.accept_redirects=0
+#!/bin/bash
+sed -i '/net.ipv4.conf.*.rp_filter/d' /etc/sysctl.conf
+for dev in ls /proc/sys/net/ipv4/conf/
+do
+  echo "net.ipv4.conf.$dev.accept_redirects=0" >> /etc/sysctl.conf
+done
+
+sysctl -w net.ipv4.*.rp_filter=1
+#!/bin/bash
+sed -i '/net.ipv4.conf.*.rp_filter/d' /etc/sysctl.conf
+for dev in ls /proc/sys/net/ipv4/conf/
+do
+  echo "net.ipv4.conf.$dev.rp_filter=1" >> /etc/sysctl.conf
+done
+
+sysctl -w net.ipv4.conf.*.accept_sorce_route=0
+#!/bin/bash
+sed -i '/net.ipv4.conf.*.rp_filter/d' /etc/sysctl.conf
+for dev in ls /proc/sys/net/ipv4/conf/
+do
+  echo "net.ipv4.conf.$dev.accept_source_route=0" >> /etc/sysctl.conf
+done
+
+

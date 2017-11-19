@@ -1,0 +1,10 @@
+#git clone https://github.com/SpiderLabs/owsp-modsecurity-crs.git
+#mv owsp-modsecurity-crs /usr/local/
+#/etc/nginx/modsecurity.conf
+Include "/usr/local/owasp-modsecurity-crs/*.conf"
+Include "/usr/local/owasp-modesecurity-crs/activated_rules/*.conf"
+#cd /usr/local/owasp-modsecurity-crs/activated_rules/
+#ln -s /usr/share/modsecurity-crs/base_rules/modsecurity_crs_41_sql_injection_attacks.conf .
+#nginx -s reload
+
+

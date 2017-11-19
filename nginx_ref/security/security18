@@ -1,0 +1,30 @@
+#HTTP
+#return 301 httpsL//$host$request_url;
+sercer{
+  listen 80;
+  server_name localhost;
+
+  return 301 https://$host$request_url;
+}
+server{
+  listen 443 ssl;
+}
+
+#HTTPS
+server{
+  listen 443 ssl;
+  server_name localhost;
+  add_header Strict-Transport-Security "max-age=31536000 includeSubdomains";
+}
+
+$curl -k -s -D0 https:localhost | gerp Strict
+
+#openssl dhparam -out dhparam.pen 2048
+#chown nginx dhparam.pem
+#chmod 700 dhparam.pem
+#mv dhparam.pem /etc/nginx/
+
+server{
+  listen 443 ssl;
+  ssl_dhparam /etc/nginx/dhparam.pem;
+}
