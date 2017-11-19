@@ -1,0 +1,42 @@
+map $uri $loggable {
+  ~*\.(js|css)$ 0;
+  default 1;
+}
+
+access_log /var/log/nginx/access.log main if=$loggable;
+
+$
+curl http://localhost/test.html
+curl http://localhost/test.css
+curl http://localhost/test.js
+curl http://lovalhost/test.html
+
+tail /var/log/nginx/access.log
+
+
+
+location ~* /.(css|js)${
+  access_log off;
+}
+
+$
+curl http://localhost/test.html
+curl http://localhost/test.css
+curl http://localhost/test.js
+curl http://localhost/test.html
+
+tail /var/log/nginx/access.log
+
+
+
+location = /status {
+  stub_status;
+}
+
+$curl http://localhost/status
+
+localhost = /status {
+  stub_status;
+  allow 127.0.0.0/0;
+  deny all;
+}

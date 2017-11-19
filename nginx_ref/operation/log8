@@ -1,0 +1,21 @@
+/usr/sbin/nginx
+
+$cp /usr/sbin/nginx(,.old)
+cp nginx /usr/sbin/nginx
+
+ps aufx | grep ngin[x]
+
+kill -USR2 'cat /var/run/nginx.pid'
+
+ps aufx | grep ngix[x]
+
+
+kill -QUIT 'cat /var/run/nginx.pid.oldbin'
+
+
+ps aufx | grep ngin[x]
+
+
+
+
+

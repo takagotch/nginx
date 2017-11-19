@@ -1,0 +1,7 @@
+access_log /var/log/nginx/access.log.gz main gzip flush=3s;
+$ab -c 100 -n 30000 http://127.0.0.1/
+/var/log/nginx/
+$du -sk /var/log/nginx/access.log*
+$cat /var/log/nginx/access.log | wc -l
+#zcat /var/log/nginx/access.log.gz | wc -l
+#diff <(cat /var/log/nginx/access.log) <(zcat /var/log/nginx/access.log.gz) | wc -l

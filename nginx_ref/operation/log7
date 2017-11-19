@@ -1,0 +1,33 @@
+open_file_cache max=4096;
+open_file_cache_valid 6s;
+
+open_file_cache_errors on;
+
+gzip_static on;
+
+$gzip -c file.html >file.html.gz
+
+gunzip on;
+gzip_static always;
+
+
+
+keepalive_timeout 90s;
+keepalive_requests 400;
+keepalive_dusavle msie6;
+
+
+location /files {
+  aio threads;
+}
+
+
+certs/trusted.pem
+ssl_stapling        on;
+ssl_satpling_verify on;
+ssl_trusted_certificate certs/trusted.pem;
+resolver 127.0.0.1;
+
+
+
+

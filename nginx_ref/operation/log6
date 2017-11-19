@@ -1,0 +1,27 @@
+worker_rimit_nofile 4096;
+
+worker_processes 2;
+worker_cpu_affinity 010 010;
+worker_priotity 10;
+
+$ps aufx | grep nginx[x]
+
+$pgrep --uid nginx nginx | xargs awk '{print $19}' /proc/%%/stat
+
+$dstat -cf 1
+
+
+worker_prosesses 2;
+worker_cpu_affinity 100 010;
+worker_priotity 10;
+
+$dstat -cf 1
+
+
+
+client_max_body_size 2k;
+
+$curl -v -X POST -F file=@log.png http://localhost/
+
+
+

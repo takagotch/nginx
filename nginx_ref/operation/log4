@@ -1,0 +1,22 @@
+/var/log/nginx/api.example.com-access.log
+/var/log/nginx/web.example.com-access.log
+
+access_log /var/log/nginx/$(host)-access.log main;
+server{
+  listen 80;
+  server_name web.example.com;
+}
+server{
+  listen 80;
+  server_name api.example.com;
+}
+
+$tail /var/log/nginx/*-access.log
+
+map $http_user_agent $uatype {
+  -*(iphone|android) smartphone;
+  -*bot bot;
+  default pc;
+}
+access_log /var/log/nginx/$uatype-access.log;
+

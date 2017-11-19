@@ -1,0 +1,30 @@
+#/var/log/nginx/api-access.log
+server{
+  listen 80;
+  server_name api.example.com;
+  access_log /var/log/nginx/api-access.log main;
+}
+server{
+  listen 80;
+  server_name web.example.com;
+  access_log /var/log/nginx/web-access.log main;
+}
+
+$curl -H "Host: api.example.com" http://localhost/
+$curl -H "Host: api.example.com" http://localhost/
+$curl -H "Host: web.example.com" http://localhost/
+
+/var/log/nginx/module_b-access.log
+
+server{
+  location /module_a/ {
+    access_log /var/log/nginx/module_a-access.log;
+    proxy_pass http://backend;
+  }
+  location /module_b/ {
+    access_log /var/log/nginx/module_b-access.log;
+    proxy_pass http://backend;
+  }
+}
+
+

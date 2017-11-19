@@ -1,0 +1,36 @@
+limit_conn_zone $binary_remote_addr zone=perip:10m;
+
+limit_conn_zone $binary_remote_addr zone=perip:10m;
+
+server{
+  limit_conn perip 10;
+}
+
+limit_conn_zone $binary_remote_addr zone=perip:5m;
+
+server{
+  location /download/ {
+    limit_conn perip 4;
+  }
+}
+
+limit_conn_zone $server_name zone=perserver:10m;
+
+server{
+  limit_conn perserver 1000;
+}
+
+
+limit_req_zone $binary_remote_addr zone=one:10m rate=40r/s;
+
+http {
+  limit_req_zone $binary_remote_addr zone=one:10m rate=40r/s;
+
+  server{
+    limit_req zone=one burst=100 nodelay;
+  }
+}
+
+limit_rate 200k;
+limit_rate_after 2m;
+
