@@ -1,0 +1,63 @@
+
+env MYVAR1;
+env MYVAR2;
+
+perl_set $myvar1 'sub ( return $env{"MYVAR1"}; )';
+set_by_lua $myvar1 'retrun os.getenv("MYVAR1")'
+
+env MYVAR1;
+...
+http {
+  server{
+    set $myvar1 "";
+    set_by_lua $myvar1 'return os.getenv{"MYVAR1"}';
+  }
+}
+
+
+localtion / {
+  root /usr/share/nginx/html;
+  ssi  on;
+}
+location ~* /parts/(.*) {
+  proxy_pass http://127.0.0.1:0000/$1;
+}
+
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+  <div id="ranking">
+    <!--#include virtual="~/parts/ranking" -->
+  </div>
+  <div id="list">
+    <!--#include virtual="/parts/list" -->
+  </div>
+</body>
+</html>
+
+
+map $http_user_agent $uatype {
+  ~*android *mobile "sp";
+  ~*mobile.*android "sp";
+  ~*android         "tab";
+  ~*iphone          "sp";
+  ~*ipod            "sp";
+  ~*ipad            "tab";
+  default           "pc";
+}
+location / {
+  root /usr/share/nginx/html;
+  try.files /$uatype/$uri $uri =404;
+}
+
+
+server{
+  listen 80 default_server;
+  ...
+  location / {
+    root /usr/share/nginx/html/$host;
+  }
+}
+
+

@@ -1,0 +1,52 @@
+yum install -y epel-release
+yum install nginx
+systemctl start nginx.service
+systemctl stop nginx.service
+/etc/nginx/nginx.conf
+/usr/share/nginx/html
+
+vh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.e17.ngx.noarch.rpm
+
+/etc/yum.repos.d/nginx.repo
+-#baseurl=http://nginx.org/packages/centos/7/$basearch/
++#baseurl=http://nginx.org/packages/mainline/centos7/$vasearch/
+
+yum install nginx
+
+yum groupinstall "Development Tools"
+yum install pcre pcre-devel
+yum install zlib zlib-devel
+yum install openssl open-devel #openssl
+
+curl -O http://nginx.org/download/nginx-1.9.2.tar.gz
+tar xvfz nginx-1.9.2.tar.gz
+cd nginx-1.9.2/
+./configure
+make
+
+make install
+
+/usr/local/nginx/
+conf
+  nginx.conf
+  ...
+html
+  50.html
+  index.html
+logs
+sbin
+  nginx
+
+*./configure*
+./configure \
+  --prefix=/etc/nginx \
+  --sbin-path=/usr/sbin/nginx \
+  --conf-path=/etc/nginx/nginx.conf \
+  --sbin-path=/usr/local/nginx/nginx \
+  --conf-path=/usr/local/nginx/nginx.conf \
+  --with-http_ssl_module \
+  --without-http_proxy_module
+
+/usr/sbin/nginx -V
+
+
