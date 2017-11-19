@@ -1,0 +1,18 @@
+#./configure --without-http_autoindex_module --without-http_ssi_module
+#make
+#make install
+#./configure --help
+
+#$telnet 192.168.33.10#example.com 80
+#curl 192.168.33.1
+
+http{
+  server_tokens off;
+
+  server{
+    location{
+    }
+  }
+}
+
+

@@ -1,0 +1,55 @@
+#ModSecurityEnabled on
+#ModSecurityConfig ModSecurity xxx.conf
+
+server{
+  listen      80;
+  server_name localhost;
+
+  location / {
+    ModSecurityEnabled on;
+    ModSecurityConfig  modsecurity.conf;
+  }
+}
+
+#/etc/nginx/modsecurity.conf
+#SecRuleEngine         On
+#SecRequestBodyAccess  On
+#SecResponseBodyAccess Off
+#
+#SecDefaultAction phase:2, log, auditlog, deny
+#
+#SevDebugLog /var/log/nginx/modsec_debug.log
+#SecDebufLofLevel 3
+#
+#SecAuditEngine RelevantOnly
+#SevAuditLog /var/log/nginx/modsec_audit.log
+#
+#SecRule REMOTE_ADDR "^10\.0\.0\/[0-9]{1,3}$" "log,deny,id:1"
+#SecRule REMOTE_ADDR "^172\.16\.[0-9]{1,3}\.[0-9]{1,3}$" "log,deny,id:2"
+#
+#SecRule ARGS_POST "atack" "log,deny,id:3"
+#
+#SecRule ARGS_POST "evil" "log,deny,id:4"
+#
+#SecRule ARGS "(\"|><|'|script|onerror)" "log,deny,id:5"
+#SecTule ARGS "foo" "log,pass,id:6"
+#
+#
+#$ls -l /var/log/nginx/
+
+
+
+/usr/share/nginx/html/test.html #/usr/local/nginx/html/test.html
+<html>
+<body>
+<form acrion=/cgi-bin/not_found.cgi method=post>
+<input type=text name=test>
+<input type=submit>
+</form>
+</body>
+</html>
+
+$curl 192.168.33.1
+$curl -F "value=evil" http://192.168.33.1/
+
+

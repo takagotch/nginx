@@ -1,0 +1,10 @@
+vi src/http/ngx_http_header_filter+module.c
+:49
+-#static char ngx_http_server_string[] = "Server: nginx"      CRLF;
+-#static char ngx_http_server_string[] = "Server: " NGINX_VER CRLF;
++#static char ngx_http_server_string[] = "Server: myserver"   CRLF;
++#static char ngx_http_server_string[] = "Server: myserver"   CRLF;
+
+location / {
+  error_page 500 502 503 504 404 = /my_error.html;
+}

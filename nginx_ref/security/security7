@@ -1,0 +1,12 @@
+#valid_referers none / blocked /server_names / strings..;
+#valid_referers *.example.jp ~192.168.33.1;
+
+location /images/ {
+  valid_referers *.example.jp ~192.168.33.1;
+
+  if ($invalid_referer) {
+    return 403;
+  }
+}
+
+

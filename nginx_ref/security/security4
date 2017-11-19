@@ -1,13 +1,11 @@
-yum install -y httpd-tools
-
-httpasswd -c ~/.ssh/id_rsa tky
+#$yum install -y httpd-tools
+#httpasswd -c ~/.ssh/id_rsa tky
 #/etc//nginx/passwd
-htpasswd -c /etc/nginx/passwd foo
-htpasswd ~/.ssh/id_rsa tky2
-htpasswd -D ~/.ssh/id_rsa tky2
-
-auth_basic xxx;
-auth_basic_user_file ~/.ssh/id_rsa;
+#htpasswd -c /etc/nginx/passwd foo
+#htpasswd ~/.ssh/id_rsa tky2
+#htpasswd -D ~/.ssh/id_rsa tky2
+#auth_basic xxx;
+#auth_basic_user_file ~/.ssh/id_rsa;
 
 
 location{

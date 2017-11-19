@@ -1,0 +1,28 @@
+#yum groupinstall git
+#yum -y install httpd-devel apr apr-devel apr-util apr-util-devel pcre pcre-\
+devel libxml2 libxml2-devel curl curl-devel openssl-devel git
+#
+#cd /tmp #~
+#git clone https://github.com/SpiderLabs/ModSecurity.git mod_security
+#cd mod_security/
+#./autogen.sh
+#./configure --enable-standalone-module
+#make
+#
+#/root/
+#rpm -lvh http://nginx.org/packages/mainline/centos/7/SRPMS/nginx-1.9.3-1.\
+el7.ngx.src.rpm
+#
+#vi /root/rpmbuild/SPECS/nginx.spec
+ #./configure \
++# --add-module=/tmp/mod_security/nginx/modesecurity \
++# $*
+ #./configure \
++# --add-module=/tmp/mod_security/nginx/modsecurity \
++# $*
+
+#/root/rpmbuild/RPMS/x86_64/
+#rpmbuild -ba /root/rpmbuild/SPECS/nginx.spec
+#cd /root/rpmbuild/RPMS/x86_64/
+#rpm -Uvh /root/rpmbuild/RPMS/x86_64/nginx-1.9.3-1.317.centos.ngx.x86_64.rpm
+
