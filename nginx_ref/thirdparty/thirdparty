@@ -1,0 +1,61 @@
+sudo yum -y groupinstall "development tools"
+sudo yum -y install readline-devel pcre-devel openssl-devel
+sudo yum -y install tar
+
+curl -kL https://github.com/FRiCKLE/ngx_cache_purge/archive/2.3.tar.gz | tar zxf -
+#./configure
+curl http://nginx.org/download/nginx-1.9.2.tar.gz | tar zxf - 
+cd nginx-1.9.2
+./configure --add-module../ngx_cache_purge-2.3
+make
+sudo make install
+#/usr/local/nginx
+
+fastcgi_cache_purge on|off<method> [from all<ip> [.. <ip>]];
+proxy_cache_purge on|off<method> [from all<ip> [.. <ip>]];
+scgi_cache_purge on|off<method> [from all<ip> [.. <ip>]];
+uwsgi_cache_purge on|off<method> [from all<ip> [.. <ip>]];
+
+fastcgi_cache_purge <zone> <key>;
+proxy_cache_purge <zone> <key>;
+scgi_cache_purge <zone> <key>;
+uwsgi_cache_purge <zone> <key>;
+
+
+http{
+  proxy_cache_path /tmp/nginx_cache keys_zone=one:10m;
+  ...
+  server{
+    location / {
+      proxy_pass        http://127.0.0.1:0000;
+      proxy_cache       one;
+      proxy_cache_key   $uri$is_args$args;
+      proxy_cache_valid 200 301 304 308 404 1m;
+      proxy_cache_purge PURGE from 127.0.0.1;
+    }
+  }
+}
+
+curl -X PURGE http://127.0.0.1/test
+
+
+
+http {
+  proxy_cache_path /tmp/nginx_chache keys_zone=one:10m;
+  ...
+  server {
+    location / {
+      proxy_pass        http://127.0.0.1:0000;
+      proxy_cache       one;
+      proxy_cache_key   $uri$is_args$args;
+      proxy_cache_valid 200 301 304 308 404 1m;
+    }
+    location ~ /purge/(.*){
+      allow             127.0.0.1;
+      deny              all;
+      proxy_cache_purge one /$1$is_args$args;
+    }
+  }
+}
+
+curl http://127.0.0.1/purge/test

@@ -1,0 +1,155 @@
+/*settings*/
+http {
+  ...
+}
+
+mail {
+  ...
+}
+
+
+user nobody;
+
+evnets{
+  events ...
+}
+
+http{
+  http ...
+  server{
+    server...
+    server_name_ hoge;
+    location /foo {
+      location...
+    }
+    location /bar {
+      location...
+    }
+  }
+  server{
+    server...
+    server_name hogehoge;
+  }
+}
+
+
+worker_process auto;
+
+client_max_body_size 4m;
+
+proxy_cache_valid 200 2h;
+
+proxy_cache_valid 200 1h 30m;
+
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header Host      $host;
+
+set $foo  "Hello";
+set $bar  "$server : $uri";
+set $args "foo=3&bar=4";
+
+location ~ ^/example/(.*\.php)$ {
+  //
+}
+
+\\ \^ \$ \. \[ \] \| \( \) \? \* \+ \{ \}
+
+---
+#main
+user nginx;
+worker_processes 1;
+error_log /var/log/nginx/error.log warn;
+pid       /var/run/nginx.pid;
+#events
+events{
+  worker_connections 1024;
+}
+#http
+http{
+  include /etc/nginx/mime.types;
+  default_type application/octet-stream;
+
+  log_format main '$remote_addr-$remote_user{$time_local} "$request"'
+                  '$status $body_bytes_sent "$http_referer"'
+		  '"$http_user+agent" "$http_x_forwarded_for"';
+
+  access_log /var/log/nginx/api-access.log main;
+
+  sendfile   on;
+  tcp_nopush on;
+
+  gzip       on;
+#server
+  server{
+    listen   80;
+    error_page 404 /404.html;
+#location
+    location / {
+      root  /usr/share/nginx/html;
+      index index.html index.htm;
+    }
+  }
+}
+
+/*nginx.conf*/
+#user nobody;
+worker_processes 1;
+
+events{
+  worker_connections 1024; 
+}
+
+http{
+  include            mime.types;
+  default_type       application/octet-stream;
+  sendfile           on;
+  keepalive_timeout  65;
+  server {
+    listen           80;
+    server_name      localhost;
+    location / {
+      root           html;
+      index          index.html index.htm
+    }
+    error_page       500 502 503 504 /50.x.html;
+    location /50x.html {
+      root           html;
+    }
+  }
+}
+
+#
+worker_processes 2;
+pid /run/nginx.pid;
+evnets {
+  worker_connections 1024;
+  # multi_accept     on;
+}
+
+$
+lscpu
+grep processor /proc/cpuinfo | wc -l
+ulimit -n
+
+#
+http{
+  server_token off;
+}
+
+http{
+  server{
+    location{
+      allow 127.0.0.1;
+      allow 192.168.0.0/24;
+      deny  all;
+    }
+  }
+}
+
+$
+nginx -t
+nginx -t
+nginx -t -c /home/test/test.conf
+
+nginx -T
+configuration file /etc/nginx/nginx.conf;

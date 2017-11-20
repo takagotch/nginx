@@ -60,3 +60,5 @@ do
 /sbin/iptables -A INPUT -j DROP
 
 exit 0
+#sh iptables.sh
+#/sbin/iptables -A INPUT -i eth0 -p tcp -s 0/0 --sport 1024:65535 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT

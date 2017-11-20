@@ -1,0 +1,104 @@
+location / {
+  root /usr/share/nginx/html;
+}
+location / {
+  rewirte /1/(.*) /2/$1 last;
+}
+location /2/ {
+  rewirte /2/(.*) /3/$1 last;
+}
+location /3/ {
+  rewrite /3/(.*) /$1 last;
+}
+
+location / {
+  root /usr/share/nginx/html;
+}
+location /1/ {
+  rewrite /1/(.*) /2/$1 last;
+}
+location /2/ {
+  rewrite /2/(.*) /3/$1 break;
+}
+location /3/ {
+  rewrite /3/(.*) /$1 last;
+}
+
+
+
+location /search/ {
+  //
+}
+location /sea {
+  //
+}
+location ~* /sea {
+  //
+}
+location = /search/ {
+  //
+}
+
+location /search/ {
+  //
+}
+locatin /sea {
+  //
+}
+locatin ~* /sea {
+  //
+}
+
+server {
+  server_name www.example.com;
+  return 301 $scheme://example.com$request_uri;
+  
+  try_files $uri http://backend;
+}
+
+rewrite_log on;
+
+log_format main '$remote_addr ~ $remote_user [$time_local] "$request" '
+                '$status $body_bytes_sent "$http_referer" '
+		'"$http_user_agent" "$http_x_forwarded_for" "$trace" ';
+set $trace "";
+location ~* \.(css|js|swf|jpeg|jpg|png|gif|ico) {
+  set $trace "$trace.location1";
+}
+location /maintenance/ {
+  set $trace "$trace.location2";
+}
+location / {
+  set $trace "$trace.location3";
+  rewrite .* /maintenance/;
+}
+
+
+include /etc/nginx/mime.types;
+default_type application/octet-stream;
+
+set_real_ip_form 10.0.0.0/0;
+real_ip_header X-Frowarded-For;
+
+ignore_invalid_headers on;
+underscores_in_headers off;
+
+ignore_invalid_headers on;
+underscores_in_headers off;
+
+ignore_invalid_header off;
+
+proxy_read_timeout 90s;
+
+location /admin/ {
+  satisfy any;
+
+  allow 127.0.0.1;
+  deny all;
+
+  auth_basic "auth admin";
+  auth_basic_user_file conf.d/htpasswd;
+}
+
+
+

@@ -1,0 +1,45 @@
+sudo yum -y groupinstall "development tools"
+sudo yum -y install readline-devel pcre-devel openssl-devel
+sudo yum -y install tar
+
+curl -kL https://github.com/pagespeed/ngx_pagespeed/archive/v1.0.32.2-beta.tar.gz | tar zxf -
+curl -kL https://dl.google.com/dl/page-speed/psol/1.9.32.2.tar.gz | tar zxf - -C ngx_pagespeed-1.9.32.2-beta/.
+
+curl http://nginx.org/download/nginx-1.9.2.tar.gz | tar zxf -
+cd nginx-1.9.2
+./configure --add-module=../ngx_pagespeed-1.9.32.2-beta
+make
+sudo make install
+
+
+pagespeed on;
+pagespeed UseParVhostStatistics on;
+pagespeed StatisticsLogging     on;
+pagespeed MessageBuffering      10000;
+pagespeed RewriteLevel          CoreFilters;
+pagespeed EnableFilters         collapse_whitespace.remove_comments,rewrite_css,rewrite_images,rewrite_javascript,trim_uris;
+
+pagespeed FileCachePath         /ngx_pagespeed_statistics;
+pagespeed GlobalStatisticsPath  /ngx_pagespeed_global_statistics;
+pagespeed MessagePath           /ngx_pagespeed_message;
+pagespeed ConsolePath           /pagespeed_cosole;
+pagespeed AdminPath             /pagespeed_admin;
+pagespeed GlobalAdminPath       /pagespeed_global_admin;
+
+server{
+  location ~ "\.pagespeed\.([a-z]\.)?[a-z]{2}\.[^.](10)\.[^.]+" {
+    add_header "" "";
+  }
+  location ~ "^/pagespeed_static/" {}
+  location ~ "^/ngx_pagespeed_beacon$" {}
+
+  location /ngx_pagespeed_statistics        { allow 127.0.0.1; deny all; }
+  location /ngx_pagespeed_global_statistics { allow 127.0.0.1; deny all; }
+  location /ngx_pagespeed_message           { allow 127.0.0.1; deny all; }
+  location /pagespeed_console               { allow 127.0.0.1; deny all; }
+  location ~ ^/pagespeed_admin              { allow 127.0.0.1; deny all; }
+  location ~ ^/pagespeed_global_admin       { allow 127.0.0.1; deny all; }
+}
+
+
+

@@ -1,0 +1,81 @@
+index index.html index.htm index.php /...path...index.html;
+
+root /usr/share/nginx/html;
+
+error_page 404 /404.html;
+error_page 500 502 503 504 /50.html;
+error_page 403 http://example.com/forbidden.html;
+error_page 404 =200 /empty/gif;
+error_page 404 = /404/php;
+
+server_name www.yahoo.jp;
+$telnet www.yahoo.jp 80
+GET / HTTP/1.1
+Host: www.yahoo.jp
+
+listen 192.168.33.1:80;
+listen 192.168.99.1;
+listen [2001:db8:dead:beaf::1]:80;
+listen [::]:8080;
+listen [::1];
+listen unix:path;
+listen unix:/var/run/nginx.sock;
+listen *:80;
+
+gzip on;
+gzip_comp_level 9;
+gzip_disable "msie6";
+gzip_types text/css text/plain
+text/js
+  text/javascript application/javascript
+  application/json-rpc;
+
+keepalive_timeout 65;
+keepalice_timeout 0
+
+rcp_nopush on;
+sendfile   on;
+
+access_log /var/log/nginx/access.log main;
+access_log off
+
+
+log_format combined '$remote_addr ~ $remote_user [$time_local]'
+                    '"$request" $status $body_bytes_sent '
+		    '"$http_referer" "$http_user_agent"'
+
+log_format main     '$remote_addr ~ $remote_user [$time_local] "$request"'
+                    '$status $body_bytes_sent "$http_referer"'
+		    '"$http_user_agent" "$http_x_forwarded_for"';
+
+default_type application/ocet-stream;
+
+include /etc/nginx/mine/.types;
+
+types {
+  text/html              html htm shtml;
+  text/css               css;
+  text/xml               xml;
+  image/gif              gif;
+  image/jpeg             jpeg jpg;
+  application/javascript js;
+  application/atom+xml   atom;
+  application/rss+xml    rss;
+}
+
+events {
+  worker_connection      1024;
+}
+
+
+pid /var/run/nginx.pid;
+
+$cat /var/run/nginx.pid
+
+error_log /var/log/nginx/error.log warn;
+
+worker_process 1;
+user nginx;
+
+ps -aef | grep nginx
+ls -l /var/log/nginx/*

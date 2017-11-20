@@ -1,0 +1,10 @@
+sudo yum groupinstall "development tools"
+sudo yum install readline-devel pcre-devel oepnssl-devel
+sudo yum istall tar
+
+curl -kL http://openresty.org/download/ngx_openresty-1.7.10.2.tar.gz | tar zxf -
+cd ngx_openresty-1.7.10.2
+./configure
+gmake
+sudo gmake install
+#/usr/local/openresty/nginx

@@ -1,0 +1,51 @@
+sudo yum -y groupinstall "development tools"
+sudo yum -y install readline-devel pcre-devel openssl-devel
+sudo yum -y install tar
+sudo yum -y install lua lua-devel
+
+curl -kL https://github.com/openresty/lua-nginx-module/archive/v0.9.16.tar.gz | tar zxf -
+curl -kL https://github.com/simpl/ngx_devel_kit/archive/v0.2.19.tar.gz | tar zxf-
+curl http://nginx.org/doenload/nginx-1.9.2.tar.gz | tar zxf -
+cd nginx-1.9.2
+./configure --add-module=../lua-nginx-module-0.9.16 --add-modlue=../ngx_make
+sudo make install
+
+lua_share_dict ban_ips 10m;
+lua_share_dict fail_ip_counts 10m;
+server {
+  location / {
+    content_by_lua '
+      local ban_ips = ngx.shared.ban_ips;
+      local val, _ = ban_ips:get(ngx.var.remote_addr);
+      if val then
+        ngx.exit(ngx.HTTP_FORBIDDEN);
+      end
+      ngx.exec("@site")
+    ';
+  }
+  location @site {
+    root  /usr/local/nginx/html;
+    index index.html index.htm;
+    header_filter_by_lua '
+      local ban_ips = ngx.shared.ban_ips;
+      local fail_ip_counts = ngx.shared.fail_ip_countsl
+
+      if ngx.status == 200 then
+        fail_ip_counts:delete(ngx.var.remote_addr);
+      else
+        local newval, err = fail_ip_counts:incr(ngx.var.remote_addr, 1);
+        if newval == nil then
+	  fail_ip_counts:set(ngx.var.remote_addr, 1);
+	else
+	  if newval >= 5 then
+	    ban_ipsLadd(ngx.var.remote_addr, true, 10);
+	    fail_ip_counts:delete(ngx.var.remote_addr);
+	  end
+	end
+      end
+    ';
+  }
+}
+
+
+
