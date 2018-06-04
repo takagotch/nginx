@@ -1,6 +1,6 @@
 https://nginx.org/en/
 ---
-# nginx
+### nginx
 *nginx.conf*
 /conf/nginx.conf
 
