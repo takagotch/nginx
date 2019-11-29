@@ -16,5 +16,15 @@ cat /etc/nginx/conf.d/default.conf
 cat /usr/share/nginx/html/index.html
 
 
+openssl version
+sudo yum install -y openssl
+sudo mkdir /etc/nginx/ssl
+sudo openssl genrsa -out /etc/nginx/ssl/server.key 2048
+sudo openssl req -new -key /etc/nginx/ssl/server.keyy -out
+sudo openssl x509 -days -out /etc/nginx/ssl/server.crt
+ls -l /etc/nginx/ssl/
+sudo vi /etc/nginx/conf.d/training_app.conf
+sudo systemctl restart nginx
+curl https://192.168.33.10
 
 
